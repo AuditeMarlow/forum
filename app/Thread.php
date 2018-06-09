@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Reply;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -12,5 +13,22 @@ class Thread extends Model
     public function replies()
     {
         return $this->hasMany('App\Reply');
+    }
+
+    /**
+     * @return \App\User
+     */
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    /**
+     * @param  \App\Reply  $reply
+     * @return bool
+     */
+    public function addReply(Reply $reply)
+    {
+        $this->replies()->create($reply->toArray());
     }
 }
