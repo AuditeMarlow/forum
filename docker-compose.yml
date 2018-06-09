@@ -1,0 +1,42 @@
+version: "3.6"
+
+services:
+  forum-nginx:
+    build: ./docker/nginx
+    ports:
+      - "127.0.0.1:8000:80"
+    volumes:
+      - ./:/application
+      - ./docker/nginx/data/site.conf:/etc/nginx/conf.d/site.conf:ro
+    networks:
+      backend:
+
+  forum-application:
+    build: ./docker/application
+    volumes:
+      - ./:/application
+      - ./docker/application/data/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+    networks:
+      backend:
+      frontend:
+
+  forum-mysql:
+    image: mariadb:10.3.6
+    ports:
+      - "127.0.0.1:33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: forum
+      MYSQL_PASSWORD: forum
+      MYSQL_DATABASE: forum
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      backend:
+
+volumes:
+  mysql:
+
+networks:
+  backend:
+  frontend:
