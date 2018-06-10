@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     /**
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'title', 'body'
+    ];
+
+    /**
      * @return []\App\Reply
      */
     public function replies()
