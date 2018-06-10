@@ -9,6 +9,16 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
+
+    /**
      * Authenticates a user for a test.
      *
      * @param  \App\User|null
