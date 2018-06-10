@@ -33,7 +33,7 @@
             @auth
                 <form
                     method="POST"
-                    action="{{ route('threads.addReply', $thread->id) }}"
+                    action="{{ url($thread->path().'/replies') }}"
                 >
                     {{ csrf_field() }}
 

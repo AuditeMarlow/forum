@@ -29,11 +29,13 @@ class ThreadTest extends TestCase
      * @test
      * @return void
      */
-    public function aThreadCanHaveReplies()
+    public function aThreadCanMakeAStringPath()
     {
-        $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Collection',
-            $this->thread->replies
+        $thread = create('App\Thread');
+
+        $this->assertEquals(
+            '/threads/'.$thread->channel->slug.'/'.$thread->id,
+            $thread->path()
         );
     }
 
@@ -50,6 +52,18 @@ class ThreadTest extends TestCase
      * @test
      * @return void
      */
+    public function aThreadCanHaveReplies()
+    {
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection',
+            $this->thread->replies
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     */
     public function aThreadCanAddAReply()
     {
         $reply = make('App\Reply', [
@@ -60,5 +74,16 @@ class ThreadTest extends TestCase
         $this->thread->addReply($reply);
 
         $this->assertCount(1, $this->thread->replies);
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function aThreadBelongsToAChannel()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertInstanceOf('App\Channel', $thread->channel);
     }
 }

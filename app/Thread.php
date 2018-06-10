@@ -11,15 +11,15 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'body'
+        'user_id', 'channel_id', 'title', 'body'
     ];
 
     /**
-     * @return []\App\Reply
+     * @return string
      */
-    public function replies()
+    public function path()
     {
-        return $this->hasMany('App\Reply');
+        return '/threads/'.$this->channel->slug.'/'.$this->id;
     }
 
     /**
@@ -31,11 +31,27 @@ class Thread extends Model
     }
 
     /**
+     * @return []\App\Reply
+     */
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
+    }
+
+    /**
      * @param  \App\Reply  $reply
      * @return bool
      */
     public function addReply(Reply $reply)
     {
         $this->replies()->create($reply->toArray());
+    }
+
+    /**
+     * @return \App\Channel
+     */
+    public function channel()
+    {
+        return $this->belongsTo('App\Channel');
     }
 }

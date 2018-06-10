@@ -22,19 +22,20 @@ class ParticipateInForumTest extends TestCase
 
         $reply = make('App\Reply');
 
-        $this->post('/threads/'.$thread->id.'/replies', $reply->toArray());
+        $this->post($thread->path().'/replies', $reply->toArray());
 
-        $this->get('/threads/'.$thread->id)
+        $this->get($thread->path())
             ->assertSee($reply->body);
     }
 
     /**
      * @test
      * @return void
-     * @expectedException \Illuminate\Auth\AuthenticationException
      */
     public function anUnauthenticatedUserMayNotParticipate()
     {
-        $this->post('/threads/1/replies', []);
+        $this->withExceptionHandling()
+            ->post('/threads/some-channel/1/replies', [])
+            ->assertRedirect('/login');
     }
 }

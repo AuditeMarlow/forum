@@ -40,9 +40,10 @@ class ReplyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $channelId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Thread $thread)
+    public function store(Request $request, $channelId, Thread $thread)
     {
         $thread->addReply(new Reply([
             'body' => $request->body,
