@@ -22,7 +22,7 @@ class ThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /**
@@ -52,9 +52,9 @@ class ThreadTest extends TestCase
      */
     public function aThreadCanAddAReply()
     {
-        $reply = factory('App\Reply')->make([
-            'body' => 'Foobar',
+        $reply = make('App\Reply', [
             'user_id' => 1,
+            'body' => 'Foobar',
         ]);
 
         $this->thread->addReply($reply);
