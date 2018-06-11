@@ -25,6 +25,10 @@ RUN apk --no-cache --update add \
     && curl -s https://getcomposer.org/installer | php \
     && chmod a+x composer.phar \
     && mv composer.phar /usr/local/bin/composer \
+    && echo "#!/usr/bin/env sh" > phpunit \
+    && echo "/application/vendor/bin/phpunit \"\$@\"" >> phpunit \
+    && chmod a+x phpunit \
+    && mv phpunit /usr/local/bin/phpunit \
     && addgroup application \
     && adduser -G application -D application
 
